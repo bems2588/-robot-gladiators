@@ -11,43 +11,44 @@ var enemyHealth = 50;
 var enemyAttack = 12;
 
 var fight = function(enemyName) {
-  while(enemyHealth > 0){
-     var prompFight = window.prompt ("would you like to  FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
-  
-      if (prompFight === "fight" || prompFight === "FIGHT"){
-        enemyHealth = enemyHealth - playerAttack;
-        console.log(`${playerName} attacked ${enemyName}. ${enemyName} now has ${enemyHealth} health remaining`)
-        if (enemyHealth <= 0){
-          window.alert(`${enemyName} has died!`);
-        } else {
-          window.alert(`${enemyName} still has ${enemyHealth} health left.`);
-        }
-        playerHealth = playerHealth - enemyAttack;
-        console.log(`${enemyName} attacked ${playerName}. ${playerName} now has ${playerHealth} health remaining.`);
-        if (playerHealth <= 0){
-          window.alert(`${playerName} has died!`);
-        } else {
-          window.alert(`${playerName} still has ${playerHealth} health left.`);
-        }
-      } else if (prompFight === "skip" || prompFight === "SKIP"){
-        var confirmSkip = window.prompt(`${playerName} are you sure you'd like to quit?`);
-        if (confirmSkip) {
-          window.alert(`${playerName} has decided to skip this fight. Goodbye!`);
-          playerMoney = playerMoney - 2;
-        } else {
-          fight();
-        }
+  while(playerHealth > 0 && enemyHealth > 0){
+    var prompFight = window.prompt ("would you like to  FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
+    
+    if (prompFight === "skip" || prompFight === "SKIP"){
+      var confirmSkip = window.prompt(`${playerName} are you sure you'd like to quit?`);
+      if (confirmSkip) {
+        window.alert(`${playerName} has decided to skip this fight. Goodbye!`);
+        playerMoney = playerMoney - 10;
+        console.log("playerMoney", playerMoney);
+        break;
+      } 
+    }
+    enemyHealth = enemyHealth - playerAttack;
+    console.log(`${playerName} attacked ${enemyName}. ${enemyName} now has ${enemyHealth} health remaining`)
 
-      } else {
-        window.alert("You need to choose a valid option. Try again!")
-      }  
-    };
+    if (enemyHealth <= 0){
+      window.alert(`${enemyName} has died!`);
+      break;
+    } else {
+      window.alert(`${enemyName} still has ${enemyHealth} health left.`);
+    }
 
-  } 
+    playerHealth = playerHealth - enemyAttack;
+    console.log(`${enemyName} attacked ${playerName}. ${playerName} now has ${playerHealth} health remaining.`);
+        
+    if (playerHealth <= 0){
+    window.alert(`${playerName} has died!`);
+    break;
+    } else {
+      window.alert(`${playerName} still has ${playerHealth} health left.`);
+    }
+  }    
+};  
+
+ 
 
 for(var i = 0; i < enemyNames.length; i++) {
   var pickedEnemyName = enemyNames[i];
   enemyHealth = 50;
-  debugger;
   fight(pickedEnemyName);
 }
