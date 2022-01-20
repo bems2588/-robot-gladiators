@@ -10,6 +10,7 @@ var enemyNames = ["Roborto", "Amy Android", "Robo Trumble"];
 var enemyHealth = 50;
 var enemyAttack = 12;
 
+
 var fight = function(enemyName) {
   while(playerHealth > 0 && enemyHealth > 0){
     var prompFight = window.prompt ("would you like to  FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
@@ -18,12 +19,13 @@ var fight = function(enemyName) {
       var confirmSkip = window.confirm(`${playerName} are you sure you'd like to quit?`);
       if (confirmSkip) {
         window.alert(`${playerName} has decided to skip this fight. Goodbye!`);
-        playerMoney = playerMoney - 10;
+        playerMoney = Math.max(0, playerMoney - 10);
         console.log("playerMoney", playerMoney);
         break;
       } 
     }
-    enemyHealth = enemyHealth - playerAttack;
+    enemyHealth = Math.max(0, enemyHealth - damage);
+
     console.log(`${playerName} attacked ${enemyName}. ${enemyName} now has ${enemyHealth} health remaining`);
 
     if (enemyHealth <= 0){
@@ -34,7 +36,7 @@ var fight = function(enemyName) {
       window.alert(`${enemyName} still has ${enemyHealth} health left.`);
     }
 
-    playerHealth = playerHealth - enemyAttack;
+    playerHealth = Math.max(0, playerHealth - damage);
     console.log(`${enemyName} attacked ${playerName}. ${playerName} now has ${playerHealth} health remaining.`);
         
     if (playerHealth <= 0){
@@ -59,7 +61,7 @@ var startGame = function(){
     
       var pickedEnemyName = enemyNames[i];
     
-      enemyHealth = 50;
+      enemyHealth = randomNumber(40, 60);
     
       fight(pickedEnemyName);
     
@@ -81,18 +83,18 @@ var startGame = function(){
 // Function to end the entire game
 
 var endGame = function () {
-  if (playerHealth > 0){
-  window.alert("The game has now ended. Lets see how you did!") 
-  }
-  else {
+  window.alert("The game has now ended. Lets see how you did!"); 
+  
+  if (playerHealth > 0) {
+    window.alert("Great job, you've survived the game! You now have a score of " + playerMoney + '.');
+  } else {
     window.alert("You've lost your robot in battle.");
   }
   
   var playAgainConfirm = window.confirm("Would you like to play again?");
   if (playAgainConfirm) {
     startGame();
-  }
-  else {
+  } else {
     window.alert("Thank you for playing Robot Gladiators! Come back soon!");
   }
 };
@@ -136,4 +138,12 @@ var shop =function() {
       break;
   }
   
+};
+startGame();
+
+
+var randomNumber = function(min, max) {
+  var value = Math.floor(Math.random() * (max - min + 1) + min);
+
+  return value;
 };
